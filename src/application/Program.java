@@ -1,8 +1,11 @@
 package application;
 
+import java.util.List;
+
 import db.DB;
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
+import model.entities.Department;
 import model.entities.Seller;
 
 public class Program {
@@ -11,9 +14,16 @@ public class Program {
 				
 		SellerDao sellerDao = DaoFactory.createSellerDao();
 		
-		Seller seller = sellerDao.findById(3);
+		System.out.println("------------find seller by id-------------");
+		Seller seller = sellerDao.findById(2);
 		
 		System.out.println(seller);
+		
+		System.out.println("------------sellers by department id-------------");
+		
+		List<Seller> sellers = sellerDao.findByDepartment(new Department(1, null));
+		
+		sellers.forEach(System.out::println);
 		
 		DB.closeConnection();
 		
