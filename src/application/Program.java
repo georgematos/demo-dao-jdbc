@@ -32,12 +32,20 @@ public class Program {
 		sellers = sellerDao.findAll();
 
 		sellers.forEach(System.out::println);
-		
+
 		System.out.println("------------insert seller-------------");
-		
+
 		Seller newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.0, new Department(2, null));
 		sellerDao.insert(newSeller);
 		System.out.println("Inserted. New Id: " + newSeller.getId());
+
+		System.out.println("------------update seller-------------");
+
+		newSeller = sellerDao.findById(1);
+		newSeller.setBaseSalary(3500.0);
+		sellerDao.update(newSeller);
+
+		System.out.println("Updated Seller: " + newSeller);
 
 		DB.closeConnection();
 

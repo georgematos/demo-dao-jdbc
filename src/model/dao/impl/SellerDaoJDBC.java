@@ -41,7 +41,7 @@ public class SellerDaoJDBC implements SellerDao {
 			ps.setInt(5, seller.getDepartment().getId());
 
 			int rowsAffected = ps.executeUpdate();
-			
+
 			if (rowsAffected > 0) {
 				ResultSet rs = ps.getGeneratedKeys();
 				if (rs.next()) {
@@ -52,7 +52,7 @@ public class SellerDaoJDBC implements SellerDao {
 			} else {
 				throw new DbException("Unexpected error, no rows affected.");
 			}
-			
+
 			System.out.println(rowsAffected + " rows affected.");
 
 		} catch (SQLException e) {
@@ -65,7 +65,29 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void update(Seller seller) {
-		// TODO Auto-generated method stub
+
+		PreparedStatement ps = null;
+
+		try {
+
+			ps = conn.prepareStatement(
+					"UPDATE seller SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
+							+ "WHERE Id = ?;");
+
+			ps.setString(1, seller.getName());
+			ps.setString(2, seller.getEmail());
+			ps.setDate(3, new java.sql.Date(seller.getBirthDate().getTime()));
+			ps.setDouble(4, seller.getBaseSalary());
+			ps.setInt(5, seller.getDepartment().getId());
+			ps.setInt(6, seller.getId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+		}
 
 	}
 
