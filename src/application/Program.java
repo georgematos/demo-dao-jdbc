@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -26,11 +27,17 @@ public class Program {
 
 		sellers.forEach(System.out::println);
 
-		System.out.println("------------sellers by department id-------------");
+		System.out.println("------------all sellers-------------");
 
 		sellers = sellerDao.findAll();
 
 		sellers.forEach(System.out::println);
+		
+		System.out.println("------------insert seller-------------");
+		
+		Seller newSeller = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.0, new Department(2, null));
+		sellerDao.insert(newSeller);
+		System.out.println("Inserted. New Id: " + newSeller.getId());
 
 		DB.closeConnection();
 
